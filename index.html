@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Turismo Colombia 🇨🇴</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:linear-gradient(135deg,#fff9fc,#f8f3ff 48%,#f2fbf8);color:#514653}
+button,select{font:inherit}button{cursor:pointer}
+header{position:absolute;top:0;left:0;width:100%;z-index:5;padding:22px 7%;display:flex;justify-content:space-between;align-items:center;color:#fff;backdrop-filter:blur(8px);background:#ffffff12}
+.logo{font:700 28px cursive;text-shadow:0 2px 10px #604c66}
+.hero{min-height:680px;padding:130px 7% 70px;display:flex;align-items:center;position:relative;overflow:hidden}
+.hero:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#4c3b5599,#4c3b5518),url("https://commons.wikimedia.org/wiki/Special:Redirect/file/Medellin%20panorama.jpg") center/cover}
+.hero-content{position:relative;z-index:2;color:#fff;max-width:650px}
+.kicker{letter-spacing:3px;font-size:13px;margin-bottom:18px}
+.hero h1{font:68px cursive;line-height:.95;margin-bottom:20px}
+.hero p{font-size:19px;line-height:1.6}
+.hero-btn{margin-top:25px;border:0;border-radius:28px;padding:15px 23px;color:#705678;font-weight:bold}
+.collage{position:absolute;right:5%;bottom:45px;width:410px;height:370px;z-index:2}
+.photo{position:absolute;width:205px;height:145px;object-fit:cover;border:8px solid white;border-radius:24px;box-shadow:0 12px 30px #0004}
+.p1{right:0;top:0;transform:rotate(5deg)}.p2{left:0;top:90px;transform:rotate(-6deg)}.p3{right:15px;bottom:0;transform:rotate(-4deg)}
+.section{padding:65px 7%}
+.title{text-align:center;font:42px cursive;color:#795b7e;margin-bottom:10px}
+.subtitle{text-align:center;color:#766b76;margin-bottom:30px}
+.location{max-width:900px;margin:auto;background:#ffffffdd;padding:30px;border-radius:30px;box-shadow:0 18px 45px #7656791f;border:1px solid #ffffff}
+.controls{display:flex;gap:12px;flex-wrap:wrap}
+select{flex:1;min-width:230px;padding:15px;border:2px solid #ead7e7;border-radius:16px;background:white;color:#5d5060}
+.btn{border:0;border-radius:16px;padding:15px 20px;background:#b79bdb;color:white;font-weight:bold}
+.loc{background:#9bd8cc}
+.selected{margin-top:18px;padding:14px;border-radius:14px;background:#f8edf7;text-align:center;color:#725779}
+.inspiration{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;max-width:1100px;margin:auto}
+.insp{height:280px;border-radius:28px;overflow:hidden;position:relative;box-shadow:0 10px 25px #0001}
+.insp img{width:100%;height:100%;object-fit:cover;transition:.3s}.insp:hover img{transform:scale(1.06)}
+.insp div{position:absolute;bottom:0;left:0;right:0;padding:22px;color:white;background:linear-gradient(transparent,#493c4ddd)}
+.insp h3{font:27px cursive}
+.categories{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;max-width:1050px;margin:auto}
+.cat{border:0;border-radius:28px;padding:27px;text-align:left;min-height:175px;box-shadow:0 10px 25px #0001;transition:.2s}
+.cat:hover{transform:translateY(-4px)}
+.cat .icon{font-size:42px;display:block;margin-bottom:13px}.cat h3{font-size:22px;margin-bottom:8px}.cat p{line-height:1.45}
+.c1{background:#f7d5e1}.c2{background:#f8ddc4}.c3{background:#dcd3f4}.c4{background:#cdebdc}.c5{background:#f5e4b8}.c6{background:#d3e6f7}.c7{background:#ead4ed}.c8{background:#f4cedc}
+#results{display:none}
+.results-head{max-width:1100px;margin:auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;margin-bottom:25px}
+.results-head h2{font:39px cursive;color:#795b7e}.back{border:0;padding:12px 18px;border-radius:15px;background:#e4d1e9;color:#624e67;font-weight:bold}
+.grid{max-width:1100px;margin:auto;display:grid;grid-template-columns:repeat(2,1fr);gap:25px}
+.card{background:#ffffffee;border-radius:28px;overflow:hidden;box-shadow:0 14px 35px #76567918;border:1px solid #ffffff;transition:transform .22s,box-shadow .22s}.card:hover{transform:translateY(-5px);box-shadow:0 20px 42px #76567925}.card img{width:100%;height:230px;object-fit:cover}
+.info{padding:21px}.info h3{color:#725779;font-size:23px;margin-bottom:9px}.info p{line-height:1.5;margin-bottom:17px}
+.actions{display:flex;gap:10px;flex-wrap:wrap}.map,.add,.more a{border:0;border-radius:12px;padding:11px 14px;text-decoration:none;font-weight:bold}
+.map{background:#c9e7df;color:#41685e}.add{background:#ead6ee;color:#694e70}.review{background:#f5dfb6;color:#76572e}
+.more,.itinerary{grid-column:1/-1;background:white;padding:28px;border-radius:25px;box-shadow:0 8px 20px #0001}
+.more{text-align:center}.more h3,.itinerary h3{color:#765679;margin-bottom:10px}.more p{line-height:1.5;margin-bottom:18px}
+.more a{display:inline-block;background:#b79bdb;color:white}.itinerary h3{font:30px cursive}
+.item{display:flex;justify-content:space-between;gap:15px;align-items:center;background:#f8eef7;padding:16px;border-radius:15px;margin-bottom:12px}
+.item b{color:#654c68}.item small{display:block;margin-top:5px}.remove{border:0;background:#efb8c8;color:#713f50;padding:9px 12px;border-radius:10px}
+footer{text-align:center;padding:35px;background:#e7d8ee;color:#654f69}
+@media(max-width:800px){.collage{display:none}.hero{min-height:620px}.hero h1{font-size:50px}.inspiration{grid-template-columns:1fr}.categories,.grid{grid-template-columns:1fr}}
+
+.foto-lugar{background:linear-gradient(90deg,#eee,#f8f8f8,#eee);transition:opacity .2s}.review{display:inline-block;text-decoration:none;border-radius:12px;padding:11px 14px;font-weight:bold}
+.foto-lugar[src=""]{opacity:.3}
+</style>
+</head>
+<body>
+<header><div class="logo">Turismo Colombia 🇨🇴</div><div>Descubre • Explora • Viaja</div></header>
+
+<main id="home">
+<section class="hero">
+<div class="hero-content">
+<div class="kicker">DESCUBRE • CONOCE • DISFRUTA</div>
+<h1>Colombia te espera</h1>
+<p>Encuentra cafés, restaurantes, hoteles, naturaleza, cultura, actividades y lugares increíbles en ciudades y pueblos de Colombia.</p>
+<button class="hero-btn" onclick="document.getElementById('destino').scrollIntoView({behavior:'smooth'})">Explorar Colombia ✨</button>
+</div>
+<div class="collage">
+<img class="photo p1" src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Cartagena001.jpg">
+<img class="photo p2" src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Guatap%C3%A9_-_Colombia.jpg">
+<img class="photo p3" src="https://commons.wikimedia.org/wiki/Special:Redirect/file/VillaLeiva.jpg">
+</div>
+</section>
+
+<section class="section" id="destino">
+<h2 class="title">¿A dónde quieres ir?</h2>
+<p class="subtitle">Elige una ciudad o pueblo y descubre qué puedes hacer allí.</p>
+<div class="location">
+<div class="controls">
+<select id="selectDestino">
+<option value="">Selecciona tu destino</option>
+<option>Medellín</option><option>Bogotá</option><option>Cali</option><option>Cartagena</option>
+<option>Santa Marta</option><option>Barranquilla</option><option>Bucaramanga</option><option>Cúcuta</option>
+<option>Valledupar</option><option>Guatapé</option><option>Jardín</option><option>Santa Fe de Antioquia</option>
+<option>Salento</option><option>Armenia</option><option>Pereira</option><option>Manizales</option>
+<option>Villa de Leyva</option><option>Tunja</option><option>Zipaquirá</option><option>Barichara</option>
+<option>San Gil</option><option>Minca</option><option>San Andrés</option><option>Buga</option>
+<option>Ibagué</option><option>Villavicencio</option><option>Leticia</option><option>Neiva</option>
+<option>San José del Guaviare</option><option>Chinácota</option>
+</select>
+<button class="btn" onclick="seleccionar()">✓ Seleccionar</button>
+<button class="btn loc" onclick="ubicacion()">📍 Usar mi ubicación</button>
+</div>
+<div class="selected" id="seleccionado">Todavía no has seleccionado un destino.</div>
+      <div id="previewDestino" style="display:none;margin-top:25px">
+        <h3 id="previewTitulo" style="color:#795b7e;text-align:center;font:30px cursive;margin-bottom:18px"></h3>
+        <div id="previewGrid" class="grid"></div>
+      </div>
+</div>
+</section>
+
+<section class="section">
+<h2 class="title">Inspírate para viajar ✨</h2>
+<p class="subtitle">Algunos destinos que puedes descubrir.</p>
+<div class="inspiration">
+<div class="insp"><img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Medellin%20panorama.jpg"><div><h3>Medellín</h3><p>Ciudad, cultura y montaña</p></div></div>
+<div class="insp"><img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Cartagena001.jpg"><div><h3>Cartagena</h3><p>Historia, mar y arquitectura</p></div></div>
+<div class="insp"><img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Guatap%C3%A9_-_Colombia.jpg"><div><h3>Guatapé</h3><p>Color, naturaleza y aventura</p></div></div>
+</div>
+</section>
+
+<section class="section">
+<h2 class="title">¿Qué quieres hacer hoy?</h2>
+<p class="subtitle">Selecciona una categoría después de elegir tu destino.</p>
+<div class="categories">
+<button class="cat c1" onclick="abrir('cafe')"><span class="icon">☕</span><h3>Café</h3><p>Descubre cafés y lugares para disfrutar.</p></button>
+<button class="cat c2" onclick="abrir('restaurantes')"><span class="icon">🍽️</span><h3>Restaurantes</h3><p>Encuentra lugares para comer y conocer la gastronomía local.</p></button>
+<button class="cat c3" onclick="abrir('hoteles')"><span class="icon">🏨</span><h3>Hoteles y hospedajes</h3><p>Busca lugares donde alojarte.</p></button>
+<button class="cat c4" onclick="abrir('naturaleza')"><span class="icon">🌿</span><h3>Naturaleza</h3><p>Parques, montañas, ríos, playas y paisajes.</p></button>
+<button class="cat c5" onclick="abrir('turisticos')"><span class="icon">📸</span><h3>Lugares turísticos</h3><p>Sitios representativos de cada destino.</p></button>
+<button class="cat c6" onclick="abrir('actividades')"><span class="icon">🎯</span><h3>Actividades</h3><p>Experiencias y planes para realizar.</p></button>
+<button class="cat c7" onclick="abrir('cultura')"><span class="icon">🏛️</span><h3>Cultura</h3><p>Historia, arte, patrimonio y tradiciones.</p></button>
+<button class="cat c8" onclick="abrirItinerario()"><span class="icon">🗓️</span><h3>Mi itinerario</h3><p>Guarda los lugares que quieres visitar.</p></button>
+</div>
+</section>
+</main>
+
+<section class="section" id="results">
+<div class="results-head"><div><h2 id="titulo"></h2><p id="subtitulo"></p></div><button class="back" onclick="volver()">← Volver</button></div>
+<p id="cantidad" style="text-align:center;margin-bottom:25px"></p>
+<div class="grid" id="grid"></div>
+</section>
+
+<footer><b style="font:24px cursive">Turismo Colombia 🇨🇴</b><p style="margin-top:8px">Proyecto de grado • SENA</p></footer>
+
+<script>
+let destino="",categoria="",itinerario=JSON.parse(localStorage.getItem("itinerarioColombia")||"[]");
+
+const fotos={
+cafe:"https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1000&q=85",
+restaurantes:"https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1000&q=85",
+hoteles:"https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1000&q=85",
+naturaleza:"https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1000&q=85",
+actividades:"https://images.unsplash.com/photo-1530789253388-582c481c54b0?auto=format&fit=crop&w=1000&q=85",
+cultura:"https://images.unsplash.com/photo-1564399579883-451a5d44ec08?auto=format&fit=crop&w=1000&q=85"
+};
+
+const nombres={
+cafe:"Café",restaurantes:"Restaurantes",hoteles:"Hoteles y hospedajes",
+naturaleza:"Naturaleza",turisticos:"Lugares turísticos",actividades:"Actividades",cultura:"Cultura"
+};
+
+const lugares={
+"Medellín":["Pueblito Paisa","Plaza Botero","Museo de Antioquia","Parque Explora","Comuna 13","Parque Arví","Jardín Botánico de Medellín","Parque de los Deseos","Parques del Río","Museo Casa de la Memoria","Museo El Castillo","Parque Lleras","Cerro Nutibara","Palacio de la Cultura Rafael Uribe Uribe","Plaza Mayor","Parque de la Conservación"],
+"Bogotá":["Monserrate","Plaza de Bolívar","Museo del Oro","La Candelaria","Museo Botero","Jardín Botánico de Bogotá","Museo Nacional de Colombia","Museo de la Independencia","Chorro de Quevedo","Parque Simón Bolívar","Parque de los Novios","Biblioteca Virgilio Barco","Usaquén","Zona T","Planetario de Bogotá","Quinta de Bolívar"],
+"Cali":["Bulevar del Río","Cristo Rey","Zoológico de Cali","Pance","San Antonio","Loma de la Cruz","Iglesia La Ermita","Barrio Granada","Museo La Tertulia","Gato del Río","Plaza de Cayzedo","Museo del Oro Calima","Parque del Ingenio","Tres Cruces","Boulevard del Río Cali"],
+"Cartagena":["Ciudad Amurallada","Castillo de San Felipe de Barajas","Torre del Reloj","Getsemaní","Islas del Rosario","Playa Blanca","Plaza Santo Domingo","Plaza de los Coches","Convento de la Popa","Museo del Oro Zenú","Museo Naval del Caribe","Las Bóvedas","Muelle de los Pegasos","Bocagrande","San Diego"],
+"Santa Marta":["Bahía de Santa Marta","Taganga","El Rodadero","Parque Tayrona","Minca","Sierra Nevada","Ciudad Perdida","Quinta de San Pedro Alejandrino","Museo del Oro Tairona","Playa Grande","Playa Cristal","Quebrada Valencia","Cabo San Juan","Marina de Santa Marta","Centro Histórico"],
+"Barranquilla":["Gran Malecón","Ciénaga de Mallorquín","Museo del Carnaval","Casa del Carnaval","Playa de Puerto Mocho","Ventana al Mundo","La Troja","Museo Romántico","Zoológico de Barranquilla","Plaza de la Paz","El Prado","Aleta del Tiburón","Parque Cultural del Caribe","Museo de Arte Moderno de Barranquilla"],
+"Bucaramanga":["Parque García Rovira","Parque Nacional del Chicamocha","Museo Casa de Bolívar","Parque San Pío","Parque de las Palmas","Catedral de la Sagrada Familia","Museo de Arte Moderno de Bucaramanga","Jardín Botánico Eloy Valenzuela","Centro Cultural del Oriente","Mirador de Bucaramanga"],
+"Cúcuta":["Malecón","Parque Santander","Monumento a la Batalla de Cúcuta","Casa Natal del General Santander","Museo Casa de Santander","Parque Gran Colombiano","Catedral de San José","Biblioteca Pública Julio Pérez Ferrero","Ventura Plaza"],
+"Valledupar":["Plaza Alfonso López","Parque de la Leyenda Vallenata","Río Guatapurí","Balneario Hurtado","Museo del Acordeón","Casa Beto Murgas","Pilonera Mayor","Nabusimake","Centro Histórico","Cerro de Hurtado"],
+"Guatapé":["Piedra del Peñol","Embalse de Guatapé","Zócalos de Guatapé","Parque Principal","Calle del Recuerdo","Malecón de Guatapé","Parroquia Nuestra Señora del Carmen","Plazoleta de los Zócalos","Museo Histórico Comunitario","Represa de Guatapé"],
+"Jardín":["Parque Principal","Cueva del Esplendor","Cascada La Escalera","Basílica de la Inmaculada Concepción","Casa de los Dulces","Cable Aéreo La Garrucha","Reserva Natural Jardín de Rocas","Charco Corazón","Calle del Comercio","Truchera La Argelia"],
+"Santa Fe de Antioquia":["Puente de Occidente","Plaza Mayor Simón Bolívar","Centro Histórico","Catedral Basílica de la Inmaculada Concepción","Museo Juan del Corral","Iglesia de Santa Bárbara","Iglesia de Nuestra Señora de Chiquinquirá","Casa Solariega","Río Cauca","Museo de Arte Religioso"],
+"Salento":["Valle de Cocora","Calle Real","Mirador de Salento","Plaza Principal","Iglesia Nuestra Señora del Carmen","Finca El Ocaso","Café Jesús Martín","Reserva Natural La Patasola","Boquía","Puente de Boquía"],
+"Armenia":["Parque del Café","Museo del Oro Quimbaya","Jardín Botánico del Quindío","Plaza Bolívar","Catedral La Inmaculada Concepción","Parque de la Vida","Museo de Arte de Armenia","Mirador de la Secreta","Recuca","Parque Los Fundadores"],
+"Pereira":["Ukumarí","Plaza de Bolívar","Parque Consotá","Jardín Botánico de Pereira","Catedral Nuestra Señora de la Pobreza","Viaducto César Gaviria Trujillo","Parque El Lago","Termales de Santa Rosa de Cabal","Alto del Nudo","César Gaviria Trujillo"],
+"Manizales":["Catedral Basílica","Torre de Chipre","Centro Histórico","Los Nevados","Recinto del Pensamiento","Ecoparque Los Yarumos","Termales El Otoño","Monumento a Los Colonizadores","Plaza de Bolívar","Nevado del Ruiz","Bosque Popular El Prado"],
+"Villa de Leyva":["Plaza Mayor","Casa Terracota","Museo El Fósil","Pozos Azules","Museo Paleontológico","Parque Arqueológico El Infiernito","Museo Casa Antonio Nariño","Casa Museo Luis Alberto Acuña","Convento del Santo Ecce Homo","Viñedo Ain Karim","Gondava","Casa Museo Antonio Ricaurte"],
+"Tunja":["Plaza de Bolívar","Puente de Boyacá","Casa del Fundador","Catedral Basílica Metropolitana","Casa del Escribano Juan de Vargas","Museo Casa del Fundador","Pozo de Hunzahúa","Templo de Santo Domingo","Paredón de los Mártires","Museo de Historia de la Medicina"],
+"Zipaquirá":["Catedral de Sal","Plaza de los Comuneros","Centro Histórico","Museo Arqueológico","Estación del Tren de Zipaquirá","Parque de la Esperanza","Casa Museo Quevedo Zornoza","Catedral Diocesana"],
+"Barichara":["Camino Real","Parque Principal","Salto del Mico","Catedral de la Inmaculada Concepción","Cementerio de Barichara","Capilla de Santa Bárbara","Casa de la Cultura","Mirador de Barichara","Parque para las Artes","Monumento a la Hormiga Culona"],
+"San Gil":["Parque El Gallineral","Río Fonce","Parque La Libertad","Catedral de Santa Cruz","Casa de la Cultura Luis Roncancio","Cerro de la Gruta","Cascada Juan Curí","Pozo Azul","Centro Histórico","Mirador de Gallineral"],
+"Minca":["Pozo Azul","Cascada Marinka","Pueblo de Minca","Los Pinos","Cacao Tour","Finca La Victoria","Casa Elemento","Mariposario de Minca","Río Minca","Mirador de Minca"],
+"San Andrés":["Johnny Cay","Hoyo Soplador","West View","La Piscinita","Playa de Spratt Bight","Casa Museo Isleña","Cueva de Morgan","San Luis","El Acuario","Big Pond Lagoon","Jardín Botánico de San Andrés"],
+"Buga":["Basílica del Señor de los Milagros","Centro Histórico","Museo del Señor de los Milagros","Parque Cabal","Laguna de Sonso","Puente de La Libertad","Plaza de Cabal","Reserva Natural La Habana"],
+"Ibagué":["Cañón del Combeima","Conservatorio del Tolima","Plaza de Bolívar","Museo de Arte del Tolima","Jardín Botánico San Jorge","Parque Centenario","Catedral de Ibagué","Cerro Pan de Azúcar","Museo Panóptico de Ibagué"],
+"Villavicencio":["Bioparque Los Ocarros","Parque Las Malocas","Plaza Los Libertadores","Parque Fundadores","Monumento a Cristo Rey","Casa de la Cultura Jorge Eliécer Gaitán","Malecón del Río Guatiquía","Mirador Piedra del Amor","Vereda El Carmen"],
+"Leticia":["Malecón Turístico","Isla de los Micos","Parque Santander","Reserva Natural Tanimboca","Museo Etnográfico","Lago Tarapoto","Comunidad indígena Mocagua","Reserva Marasha","Mundo Amazónico","Río Amazonas"],
+"Neiva":["Desierto de la Tatacoa","Malecón del Río Magdalena","Monumento La Gaitana","Parque Santander","Museo Arqueológico Regional","Museo de Arte Contemporáneo del Huila","Catedral de la Inmaculada Concepción","Represa de Betania","Estación del Ferrocarril"],
+"San José del Guaviare":["Puerta de Orión","Ciudad de Piedra","Cerro Azul","Tranquilandia","Laguna Negra","Pozos Naturales","Raudal del Guayabero","Caño Sabana","Serranía de la Lindosa","Pinturas Rupestres"],
+"Chinácota":["Parque Principal","Iglesia de San Juan Bautista","Senderos rurales","Mirador de Chinácota","Balneario Los Vados","Cascada de Iscalá","Hacienda Iscalá","Cerro de La Vieja","Centro Histórico","Veredas de Chinácota"]
+};
+
+function seleccionar(){
+destino=document.getElementById("selectDestino").value;
+document.getElementById("seleccionado").textContent=destino?"✓ Destino seleccionado: "+destino:"⚠️ Selecciona un destino.";
+const box=document.getElementById("previewDestino");
+const grid=document.getElementById("previewGrid");
+if(!destino){box.style.display="none";return;}
+box.style.display="block";
+document.getElementById("previewTitulo").textContent="✨ Lugares de "+destino;
+grid.innerHTML="";
+(lugares[destino]||[]).slice(0,8).forEach(n=>grid.appendChild(tarjetaLugar(n,destino,"turisticos")));
+box.scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function abrir(cat){
+if(!destino){
+document.getElementById("seleccionado").textContent="⚠️ Primero selecciona una ciudad o pueblo.";
+document.getElementById("destino").scrollIntoView({behavior:"smooth"});
+return;
+}
+categoria=cat;
+document.getElementById("home").style.display="none";
+document.getElementById("results").style.display="block";
+document.getElementById("titulo").textContent=nombres[cat]+" en "+destino;
+document.getElementById("subtitulo").textContent="Descubre opciones para disfrutar de "+destino+" • Fotos y reseñas disponibles desde cada ficha.";
+render();
+window.scrollTo({top:0,behavior:"smooth"});
+}
+
+async function imagenReal(nombre, ciudad, categoria){
+  const fallback = fotos[categoria] || fotos.naturaleza;
+  const controller = new AbortController();
+  const timer = setTimeout(()=>controller.abort(),3000);
+  try{
+    const q = encodeURIComponent(nombre + " " + ciudad);
+    const url = "https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch="+q+"&gsrnamespace=6&gsrlimit=1&prop=imageinfo&iiprop=url&iiurlwidth=900&format=json&origin=*";
+    const r = await fetch(url,{signal:controller.signal});
+    if(!r.ok) throw new Error("imagen");
+    const data = await r.json();
+    const pages = data.query && data.query.pages ? Object.values(data.query.pages) : [];
+    if(pages[0] && pages[0].imageinfo && pages[0].imageinfo[0]){
+      return pages[0].imageinfo[0].thumburl || pages[0].imageinfo[0].url || fallback;
+    }
+  }catch(e){}
+  finally{clearTimeout(timer);}
+  return fallback;
+}
+
+function tarjetaLugar(nombre, ciudad, cat){
+  const article = document.createElement("article");
+  article.className="card";
+  const map = "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(nombre+" "+ciudad);
+  article.innerHTML =
+    '<img class="foto-lugar" src="'+(fotos[cat]||fotos.naturaleza)+'" alt="'+nombre+'" loading="lazy">'+
+    '<div class="info"><h3>'+nombre+'</h3>'+
+    '<p>📸 Fotos reales del lugar cuando están disponibles y consulta de reseñas actuales.</p>'+
+    '<div class="actions">'+
+    '<a class="map" target="_blank" rel="noopener" href="'+map+'">📍 Ver en Google Maps</a>'+
+    '<a class="review" target="_blank" rel="noopener" href="'+map+'">⭐ Reseñas y fotos</a>'+
+    '<button class="add">＋ Itinerario</button>'+
+    '</div></div>';
+  article.querySelector(".add").onclick=()=>agregar(nombre,ciudad);
+  imagenReal(nombre,ciudad,cat).then(src=>{
+    const img=article.querySelector(".foto-lugar");
+    if(img) img.src=src;
+  });
+  return article;
+}
+
+function tarjetaBusqueda(titulo, texto, cat, ciudad){
+  const article=document.createElement("article");
+  article.className="card";
+  const map="https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(titulo+" en "+ciudad);
+  article.innerHTML=
+    '<img src="'+fotos[cat]+'" alt="'+titulo+'" loading="lazy">'+
+    '<div class="info"><h3>'+titulo+' en '+ciudad+'</h3>'+
+    '<p>'+texto+'</p>'+
+    '<a class="map" target="_blank" rel="noopener" href="'+map+'">📍 Ver en Google Maps</a></div>';
+  return article;
+}
+
+async function render(){
+  const grid=document.getElementById("grid");
+  grid.innerHTML="";
+  const lista=lugares[destino]||[];
+
+  // Para estos servicios se consulta Google Maps directamente para que
+  // la búsqueda siempre pueda mostrar establecimientos actuales.
+  if(categoria==="cafe"){
+    grid.appendChild(tarjetaBusqueda("Cafés","Consulta cafés del destino con sus fotos, reseñas, horarios y ubicación actual.","cafe",destino));
+  }else if(categoria==="restaurantes"){
+    grid.appendChild(tarjetaBusqueda("Restaurantes","Consulta restaurantes del destino con sus fotos, reseñas, horarios y ubicación actual.","restaurantes",destino));
+  }else if(categoria==="hoteles"){
+    grid.appendChild(tarjetaBusqueda("Hoteles y hospedajes","Consulta hoteles y hospedajes del destino con fotos, reseñas y ubicación actual.","hoteles",destino));
+  }
+
+  // Lugares turísticos/naturaleza/actividades/cultura del destino.
+  lista.forEach(n=>{
+    grid.appendChild(tarjetaLugar(n,destino,categoria==="turisticos" ? "naturaleza" : categoria));
+  });
+
+  const more=document.createElement("div");
+  more.className="more";
+  const etiqueta=nombres[categoria]||"lugares";
+  more.innerHTML=
+    '<h3>🔎 Ver todos los '+etiqueta.toLowerCase()+' de '+destino+'</h3>'+
+    '<p>La oferta de comercios y servicios cambia con el tiempo. Este botón abre una búsqueda actual de Google Maps para consultar más opciones.</p>'+
+    '<a target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(etiqueta+" en "+destino)+'">📍 Ver todos en Google Maps</a>';
+  grid.appendChild(more);
+
+  document.getElementById("cantidad").textContent=
+    (lista.length + (["cafe","restaurantes","hoteles"].includes(categoria)?1:0))+
+    " opciones destacadas + búsqueda de opciones actuales.";
+}
+function agregar(name,city){
+if(itinerario.some(x=>x.name===name&&x.city===city)){alert("Este lugar ya está en tu itinerario.");return}
+itinerario.push({name,city,id:Date.now()});
+localStorage.setItem("itinerarioColombia",JSON.stringify(itinerario));
+alert("✓ "+name+" fue agregado a tu itinerario.");
+}
+
+function abrirItinerario(){
+document.getElementById("home").style.display="none";
+document.getElementById("results").style.display="block";
+document.getElementById("titulo").textContent="Mi itinerario";
+document.getElementById("subtitulo").textContent="Tus lugares guardados";
+let g=document.getElementById("grid");g.innerHTML="";
+let b=document.createElement("div");b.className="itinerary";
+b.innerHTML="<h3>🗓️ Lugares que quieres visitar</h3>";
+if(!itinerario.length)b.innerHTML+="<p>Tu itinerario está vacío.</p>";
+itinerario.forEach(x=>{
+let r=document.createElement("div");r.className="item";
+r.innerHTML="<div><b>"+x.name+"</b><small>📍 "+x.city+"</small></div><button class='remove'>Quitar</button>";
+r.querySelector(".remove").onclick=()=>{
+itinerario=itinerario.filter(y=>y.id!==x.id);
+localStorage.setItem("itinerarioColombia",JSON.stringify(itinerario));
+abrirItinerario();
+};
+b.appendChild(r);
+});
+g.appendChild(b);
+document.getElementById("cantidad").textContent=itinerario.length+" lugares guardados.";
+}
+
+function volver(){
+document.getElementById("results").style.display="none";
+document.getElementById("home").style.display="block";
+window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function ubicacion(){
+if(!navigator.geolocation){
+document.getElementById("seleccionado").textContent="Tu navegador no permite ubicación.";
+return;
+}
+document.getElementById("seleccionado").textContent="📍 Solicitando permiso...";
+navigator.geolocation.getCurrentPosition(
+()=>document.getElementById("seleccionado").textContent="✓ Ubicación permitida. Ahora selecciona tu ciudad o pueblo.",
+()=>document.getElementById("seleccionado").textContent="No se pudo usar la ubicación. Puedes elegir manualmente.",
+{enableHighAccuracy:true,timeout:10000}
+);
+}
+</script>
+</body>
+</html>
